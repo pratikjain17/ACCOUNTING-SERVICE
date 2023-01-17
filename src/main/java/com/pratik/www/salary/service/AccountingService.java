@@ -48,7 +48,7 @@ public class AccountingService {
                 .setAmount(amount)
                 .build();
 
-        salaryEntityRepository.save(salary);
+//        salaryEntityRepository.save(salary);
 
         return salary;
     }
