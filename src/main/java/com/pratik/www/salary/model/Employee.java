@@ -16,10 +16,8 @@ import java.util.Date;
 @JsonDeserialize(builder = Employee.EmployeeBuilder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document
 public class Employee {
 
-    @Id
     private String id;
     private String name;
     private String deptName;

@@ -14,7 +14,4 @@ public interface WorkHourServiceProxy {
     @ResponseStatus(HttpStatus.FOUND)
     public Optional<EmployeeLeave> getEmployeeLeave(@RequestBody WorkHourRequest request);
 
-//    @GetMapping("/employeeleave/find/{employeeId}/{yearMonth}")
-//    @ResponseStatus(HttpStatus.FOUND)
-//    public Optional<EmployeeLeave> getEmployeeLeave(@PathVariable String employeeId, @PathVariable Number yearMonth);
 }

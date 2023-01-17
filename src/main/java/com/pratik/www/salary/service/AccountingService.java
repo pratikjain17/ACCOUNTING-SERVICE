@@ -29,8 +29,8 @@ public class AccountingService {
         Number amount = null;
         try {
             Number baseSalary = employeeService.getEmployee(request.getEmployeeId()).getBaseSalary();
-//            EmployeeLeave leave = restTemplate.postForObject("http://localhost:8085/employeeleave/find",request,EmployeeLeave.class);
-            EmployeeLeave leave = workHourService.getEmployeeLeave(request).get();
+            EmployeeLeave leave = restTemplate.postForObject("http://localhost:8085/employeeleave/find",request,EmployeeLeave.class);
+//            EmployeeLeave leave = workHourService.getEmployeeLeave(request).get();
             if(leave == null){
                 amount = baseSalary;
             }else {

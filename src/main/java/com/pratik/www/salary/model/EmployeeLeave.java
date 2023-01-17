@@ -10,9 +10,8 @@ import org.springframework.data.couchbase.core.mapping.Document;
 @JsonDeserialize(builder = EmployeeLeave.EmployeeLeaveBuilder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@Document
 public class EmployeeLeave {
-    @Id
+
     private String id;
     private String employeeId;
     private Number yearMonth;
