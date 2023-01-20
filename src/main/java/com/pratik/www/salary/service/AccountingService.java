@@ -7,6 +7,7 @@ import com.pratik.www.salary.proxy.WorkHourServiceProxy;
 import com.pratik.www.salary.model.WorkHourRequest;
 import com.pratik.www.salary.model.EmployeeLeave;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,18 +25,22 @@ public class AccountingService {
     @Autowired
     private SalaryEntityRepository salaryEntityRepository;
 
-    public SalaryEntity calculateSalary(WorkHourRequest request) {
+    public SalaryEntity calculateSalary(String employeeId, Number yearMonth) {
         SalaryEntity salary;
         Number amount = null;
         try {
-            Number baseSalary = employeeService.getEmployee(request.getEmployeeId()).getBaseSalary();
-            EmployeeLeave leave = restTemplate.postForObject("http://localhost:8085/employeeleave/find",request,EmployeeLeave.class);
-//            EmployeeLeave leave = workHourService.getEmployeeLeave(request).get();
+            Number baseSalary = employeeService.getEmployee(employeeId).getBaseSalary();
+//            EmployeeLeave leave = restTemplate
+//                    .getForObject("http://localhost:8085/employeeleave/find/{employeeId}/{yearMonth}",EmployeeLeave.class, employeeId, yearMonth);
+            EmployeeLeave leave =
+                     workHourService
+                            .getEmployeeLeaveByEmployeeIdAndYearMonth(employeeId,yearMonth)
+                            .get();
             if(leave == null){
                 amount = baseSalary;
             }else {
                 Number leaveCount = leave.getCount();
-                Number daysInMonth = calculateDaysInMonth(request.getYearMonth());
+                Number daysInMonth = calculateDaysInMonth(yearMonth);
                 amount = (baseSalary.intValue()) * (daysInMonth.intValue() - leaveCount.intValue()) / daysInMonth.intValue();
             }
         } catch (Exception e) {
@@ -43,8 +48,8 @@ public class AccountingService {
         }
 
         salary = new SalaryEntity.SalaryEntityBuilder()
-                .setEmployeeId(request.getEmployeeId())
-                .setYearMonth(request.getYearMonth())
+                .setEmployeeId(employeeId)
+                .setYearMonth(yearMonth)
                 .setAmount(amount)
                 .build();
 

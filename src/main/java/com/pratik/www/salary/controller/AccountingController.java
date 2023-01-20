@@ -14,13 +14,9 @@ public class AccountingController {
     @Autowired
     private AccountingService accountingService;
 
-    @PostMapping("/calculateSalary")
-    public SalaryEntity calculateSalary(@RequestBody WorkHourRequest request){
-        return this.accountingService.calculateSalary(request);
+    @GetMapping("/calculateSalary/{employeeId}/{yearMonth}")
+    public SalaryEntity calculateSalary(@PathVariable String employeeId, @PathVariable Number yearMonth){
+        return this.accountingService.calculateSalary(employeeId,yearMonth);
     }
 
-//    @PostMapping("/calculateSalary/{employeeId}/{yearMonth}")
-//    public Number calculateSalary(@PathVariable String employeeId, @PathVariable Number yearMonth){
-//        return this.accountingService.calculateSalary(employeeId, yearMonth);
-//    }
 }

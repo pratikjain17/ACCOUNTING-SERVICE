@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
-@FeignClient(name = "WORKHOUR-SERVICE", url = "http://localhost:8085/employeeleave/find")
+@FeignClient(name = "WORKHOUR-SERVICE")
 public interface WorkHourServiceProxy {
-    @PostMapping
-    @ResponseStatus(HttpStatus.FOUND)
-    public Optional<EmployeeLeave> getEmployeeLeave(@RequestBody WorkHourRequest request);
+
+    @GetMapping("employeeleave/find/{employeeId}/{yearMonth}")
+    public Optional<EmployeeLeave> getEmployeeLeaveByEmployeeIdAndYearMonth(@PathVariable String employeeId, @PathVariable Number yearMonth);
 
 }
