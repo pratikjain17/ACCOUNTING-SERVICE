@@ -28,7 +28,7 @@ public class AccountingService {
     public SalaryEntity calculateSalary(String employeeId, Number yearMonth) {
         SalaryEntity salary;
         Number amount = null;
-        try {
+
             Number baseSalary = employeeService.getEmployee(employeeId).getBaseSalary();
 //            EmployeeLeave leave = restTemplate
 //                    .getForObject("http://localhost:8085/employeeleave/find/{employeeId}/{yearMonth}",EmployeeLeave.class, employeeId, yearMonth);
@@ -43,9 +43,6 @@ public class AccountingService {
                 Number daysInMonth = calculateDaysInMonth(yearMonth);
                 amount = (baseSalary.intValue()) * (daysInMonth.intValue() - leaveCount.intValue()) / daysInMonth.intValue();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         salary = new SalaryEntity.SalaryEntityBuilder()
                 .setEmployeeId(employeeId)
