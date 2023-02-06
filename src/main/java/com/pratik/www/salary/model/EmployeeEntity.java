@@ -1,34 +1,31 @@
 package com.pratik.www.salary.model;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.couchbase.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.Date;
 
-@JsonDeserialize(builder = Employee.EmployeeBuilder.class)
+@JsonDeserialize(builder = EmployeeEntity.EmployeeBuilder.class)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Employee {
+public class EmployeeEntity {
 
     private String id;
     private String name;
     private String deptName;
     private String address;
     @JsonIgnore
-    private Date joiningDate;
+    private LocalDate joiningDate;
     private int baseSalary;
 
-    public Employee() {}
+    public EmployeeEntity() {}
 
-    public Employee(EmployeeBuilder builder) {
+    public EmployeeEntity(EmployeeBuilder builder) {
         this.id = builder.id;
         this.name = builder.name;
         this.deptName = builder.deptName;
@@ -54,7 +51,7 @@ public class Employee {
         return address;
     }
 
-    public Date getJoiningDate() {
+    public LocalDate getJoiningDate() {
         return joiningDate;
     }
 
@@ -81,7 +78,7 @@ public class Employee {
         protected String deptName;
         protected String address;
         @JsonIgnore
-        protected Date joiningDate;
+        protected LocalDate joiningDate;
         protected int baseSalary;
 
         public EmployeeBuilder setId(String id) {
@@ -104,7 +101,7 @@ public class Employee {
             return this;
         }
 
-        public EmployeeBuilder setJoiningDate(Date joiningDate) {
+        public EmployeeBuilder setJoiningDate(LocalDate joiningDate) {
             this.joiningDate = joiningDate;
             return this;
         }
@@ -114,8 +111,8 @@ public class Employee {
             return this;
         }
 
-        public Employee build() {
-            return new Employee(this);
+        public EmployeeEntity build() {
+            return new EmployeeEntity(this);
         }
     }
 }

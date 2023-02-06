@@ -1,6 +1,6 @@
 package com.pratik.www.salary.configuration;
 
-import com.pratik.www.salary.model.Employee;
+import com.pratik.www.salary.model.EmployeeEntity;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -9,6 +9,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
     @Bean
-    public ConsumerFactory<String, Employee> consumerFactory()
+    public ConsumerFactory<String, EmployeeEntity> EmployeeEntityConsumer()
     {
 
         // Creating a Map of string-object pairs
@@ -33,19 +34,20 @@ public class KafkaConfig {
                 StringDeserializer.class);
         config.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                JsonDeserializer.class);
 
-        return new DefaultKafkaConsumerFactory<>(config);
+        return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(EmployeeEntity.class));
     }
 
     // Creating a Listener
-    public ConcurrentKafkaListenerContainerFactory
-    concurrentKafkaListenerContainerFactory()
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, EmployeeEntity>
+    EmployeeEntityListener()
     {
         ConcurrentKafkaListenerContainerFactory<
-                String, Employee> factory
+                String, EmployeeEntity> factory
                 = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(consumerFactory());
+        factory.setConsumerFactory(EmployeeEntityConsumer());
         return factory;
     }
 }
