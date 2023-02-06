@@ -35,6 +35,8 @@ public class KafkaConfig {
         config.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
                 JsonDeserializer.class);
+        config.put(JsonDeserializer.TRUSTED_PACKAGES,"com.pratik.www.employee.db.entity.EmployeeEntity");
+        config.put(JsonDeserializer.TYPE_MAPPINGS,"com.pratik.www.employee.db.entity.EmployeeEntity:com.pratik.www.salary.model.EmployeeEntity");
 
         return new DefaultKafkaConsumerFactory<>(config, new StringDeserializer(), new JsonDeserializer<>(EmployeeEntity.class));
     }
