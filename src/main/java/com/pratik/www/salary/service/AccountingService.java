@@ -4,10 +4,8 @@ import com.pratik.www.salary.db.entity.SalaryEntity;
 import com.pratik.www.salary.db.repository.SalaryEntityRepository;
 import com.pratik.www.salary.proxy.EmployeeServiceProxy;
 import com.pratik.www.salary.proxy.WorkHourServiceProxy;
-import com.pratik.www.salary.model.WorkHourRequest;
-import com.pratik.www.salary.model.EmployeeLeave;
+import com.pratik.www.salary.model.EmployeeLeaveEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -32,7 +30,7 @@ public class AccountingService {
             Number baseSalary = employeeService.getEmployee(employeeId).getBaseSalary();
 //            EmployeeLeave leave = restTemplate
 //                    .getForObject("http://localhost:8085/employeeleave/find/{employeeId}/{yearMonth}",EmployeeLeave.class, employeeId, yearMonth);
-            EmployeeLeave leave =
+            EmployeeLeaveEntity leave =
                      workHourService
                             .getEmployeeLeaveByEmployeeIdAndYearMonth(employeeId,yearMonth)
                             .get();
